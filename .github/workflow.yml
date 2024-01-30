@@ -65,7 +65,7 @@ jobs:
         run: echo "::set-output name=date::$(date +%Y%m%d-%H%M%S)"
 
       - name: Docker build
-        run: docker build -t iideveloper21/measurements-qrks:$TAG_NAME -f backend/src/main/docker/Dockerfile.jvm ./backend
+        run: docker build -t iideveloper21/measurements-qrks:$TAG_NAME -f backend/projekt/src/main/docker/Dockerfile.jvm ./backend
         env:
           TAG_NAME: CD-${{ steps.date.outputs.date }}
 
@@ -262,7 +262,7 @@ jobs:
       - name: Start backend
         run: |
           ./mvnw quarkus:dev &
-        working-directory: backend
+        working-directory: backend/projekt
 
       - name: Wait for Quarkus Server to be Ready
         run: |

@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ccba882b-8f65-47ee-ae6a-53bf5b44610f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflow.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/.dockerignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/.mvn/wrapper/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/docker/Dockerfile.jvm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/docker/Dockerfile.legacy-jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/docker/Dockerfile.native" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/docker/Dockerfile.native-micro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/java/si/um/feri/GreetingResource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/resources/META-INF/resources/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/test/java/si/um/feri/GreetingResourceIT.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projekt/src/test/java/si/um/feri/GreetingResourceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflow.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflow.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,25 +19,40 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2bd5lGHIfL0CIk17I06T0advDgU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gajag/OneDrive - Univerza v Mariboru/2. letnik/zimskaSola/zimskaSola/backend/projekt/pom.xml",
+    "last_opened_file_path": "C:/Users/gajag/OneDrive - Univerza v Mariboru/2. letnik/zimskaSola/zimskaSola/backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gajag\OneDrive - Univerza v Mariboru\2. letnik\zimskaSola\zimskaSola" />
+      <recent name="C:\Users\gajag\OneDrive - Univerza v Mariboru\2. letnik\zimskaSola\zimskaSola\backend" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -61,10 +62,15 @@
       <option name="presentableId" value="Default" />
       <updated>1706532267841</updated>
       <workItem from="1706532269838" duration="99000" />
+      <workItem from="1706608917864" duration="129000" />
+      <workItem from="1706610415707" duration="2460000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-
+  
   BE-build-test-package:
     name: BE Build & Test & Package
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
         with:
           name: Package
           path: backend/target
-
+  
   BE-docker-image-delivery:
     name: BE Docker Image Delivery
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
         run: echo "::set-output name=date::$(date +%Y%m%d-%H%M%S)"
 
       - name: Docker build
-        run: docker build -t iideveloper21/measurements-qrks:$TAG_NAME -f backend/projekt/src/main/docker/Dockerfile.jvm ./backend
+        run: docker build -t iideveloper21/measurements-qrks:$TAG_NAME -f backend/src/main/docker/Dockerfile.jvm ./backend
         env:
           TAG_NAME: CD-${{ steps.date.outputs.date }}
 
@@ -89,36 +89,37 @@ jobs:
     name: BE SonarCloud Analysis
     runs-on: ubuntu-latest
     needs: [BE-build-test-package]
-
-  build:
-    name: Build and analyze
-    runs-on: ubuntu-latest
+  
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 21
+      - name: Checkout repository
+        uses: actions/checkout@v3
+  
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          java-version: 21
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'adopt'
+          java-version: '21'
+          cache: maven
+  
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.gajciiii }}
-          SONAR_TOKEN: ${{ secrets.ZIMSKASOLA }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=zimskasola
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BE }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=iizimskasola2024_demo_measurements_BE -DskipTests -Dsonar.qualitygate.wait=true
+        working-directory: backend/
 
   BE-deploy-on-azure:
     name: BE Deploy on Azure
@@ -135,14 +136,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+  
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
-
+  
       - name: Install dependencies
         run: npm ci
         working-directory: frontend
@@ -154,7 +155,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
+        
       - name: Build frontend
         run: npm run build --no-progress 2>&1 >/dev/null || true # Mutes ESlint warnings
         working-directory: frontend
@@ -164,34 +165,34 @@ jobs:
         with:
           name: frontend-build
           path: frontend/build/
-
+        
   FE-static-code-analysis:
-    name: FE SonarCloud Analysis
-    runs-on: ubuntu-latest
-    needs: [FE-build]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: frontend
-
-      - name: SonarCloud Scan Frontend
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FE }}
-        with:
-          projectBaseDir: frontend/
-
+      name: FE SonarCloud Analysis
+      runs-on: ubuntu-latest
+      needs: [FE-build]
+    
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+    
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
+            cache: 'npm'
+            cache-dependency-path: frontend/package-lock.json
+    
+        - name: Install dependencies
+          run: npm ci
+          working-directory: frontend
+  
+        - name: SonarCloud Scan Frontend
+          uses: SonarSource/sonarcloud-github-action@master
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FE }}
+          with:
+            projectBaseDir: frontend/
+        
   FE-deploy:
     name: FE Deployment
     runs-on: ubuntu-latest
@@ -218,12 +219,12 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --build-env REACT_APP_BACKEND_URL=${{ secrets.BACKEND_URL }}
+        run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --build-env REACT_APP_BACKEND_URL=${{ secrets.BACKEND_URL }}   
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}     
         working-directory: frontend/
-
+          
   cypress:
     name: Functional Tests
     runs-on: ubuntu-latest
@@ -247,7 +248,7 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-
+          
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -255,27 +256,27 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'adopt'
-          java-version: '21'
-          cache: maven
-
+            distribution: 'adopt'
+            java-version: '21'
+            cache: maven
+            
       - name: Start backend
         run: |
-          ./mvnw quarkus:dev &
-        working-directory: backend/projekt
+         ./mvnw quarkus:dev &
+        working-directory: backend
 
       - name: Wait for Quarkus Server to be Ready
         run: |
-          echo "Waiting for Quarkus server to start..."
-          until curl --output /dev/null --head http://localhost:8280/api/v1/history; do
-           printf '.'
-           sleep 5
-          done
-          echo "Quarkus server is up and running!"
+         echo "Waiting for Quarkus server to start..."
+         until curl --output /dev/null --head http://localhost:8280/api/v1/history; do
+          printf '.'
+          sleep 5
+         done
+         echo "Quarkus server is up and running!"
 
       - name: Ouput backend endpoint
         run: |
-          curl http://localhost:8280/api/v1/history
+         curl http://localhost:8280/api/v1/history
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -283,31 +284,31 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
-
+  
       - name: Install dependencies
         run: npm ci
         working-directory: frontend
-
+        
       - name: Start frontend
         run: npm run start &
         working-directory: frontend
 
       - name: Wait for React Server to be Ready
         run: |
-          echo "Waiting for React server to start..."
-          until curl --output /dev/null --head http://localhost:3000; do
-           printf '.'
-           sleep 5
-          done
-          echo "React server is up and running!"
+             echo "Waiting for React server to start..."
+             until curl --output /dev/null --head http://localhost:3000; do
+              printf '.'
+              sleep 5
+             done
+             echo "React server is up and running!"
 
       - name: Cypress run
-        # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
+          # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
         with:
           # Starts web server for E2E tests
           # https://docs.cypress.io/guides/continuous-integration/introduction#Boot-your-server
-
+          
           wait-on: 'http://localhost:3000'
           record: true
           parallel: true
@@ -315,3 +316,4 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # you can also add a GitHub secret
 
+ 

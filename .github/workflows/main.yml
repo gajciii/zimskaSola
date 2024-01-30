@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and test with Maven
         run: mvn -B package --file pom.xml -Dquarkus.datasource.reactive.url=vertx-reactive:postgresql://localhost:5432/measdb
-        working-directory: backend
+        working-directory: backend/projekt
 
       - name: Upload resulting Build package
         uses: actions/upload-artifact@v4
@@ -58,14 +58,14 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: Package
-          path: backend/target/
+          path: backend/projekt/target/
 
       - name: Generate image tag
         id: date
         run: echo "::set-output name=date::$(date +%Y%m%d-%H%M%S)"
 
       - name: Docker build
-        run: docker build -t iideveloper21/measurements-qrks:$TAG_NAME -f backend/src/main/docker/Dockerfile.jvm ./backend
+        run: docker build -t iideveloper21/measurements-qrks:$TAG_NAME -f backend/projekt/src/main/docker/Dockerfile.jvm ./backend
         env:
           TAG_NAME: CD-${{ steps.date.outputs.date }}
 
@@ -119,7 +119,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BE }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=iizimskasola2024_demo_measurements_BE -DskipTests -Dsonar.qualitygate.wait=true
-        working-directory: backend/
+        working-directory: backend/projekt/
 
   BE-deploy-on-azure:
     name: BE Deploy on Azure
@@ -263,7 +263,7 @@ jobs:
       - name: Start backend
         run: |
          ./mvnw quarkus:dev &
-        working-directory: backend
+        working-directory: backend/projekt
 
       - name: Wait for Quarkus Server to be Ready
         run: |
